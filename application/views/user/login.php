@@ -1,4 +1,4 @@
-<h3> Admin Login </h3>
+<h3> User Login </h3>
 <form class="form" action="" method="POST">
   <ul>
     <li>

@@ -11,27 +11,49 @@
 
 namespace Model;
 use \Core\Database;
-Class User{
-    public $fullname;
-    public $email;
-    public $password;
-    public $id;
+use Libs\Session;
 
-    public function __construct($data){
-        if(!empty($data)){
-            foreach ($data as $key => $value) {
-                if(!empty($value)){
-                    $this->{$key} = $value;
-                }
-            }
-            
-        }
-    }
+Class User
+{
+  private $userTable;
+  public $id;
+  public $fullName;
+  public $email;
+  public $password;
 
-    public function register(){
-        $query = Database::connection()->prepare("INSERT INTO users VALUES(0,:fullname,:email,:password)");
-        $query->execute(array(":fullname" => $this->fullname,":email" => $this->email,":password" => md5($this->password)));
-        $this->id = Database::connection()->lastInsertId();
-        return $this;
+  public function __construct($data){
+    $this->userTable = "users";
+    if ( !empty($data) )
+      foreach ( $data as $key => $value )
+        if ( !empty($value) )
+          $this->{$key} = $value;
+  }
+
+  public function login()
+  {
+    if ( $this->userExists() ) {
+      Session::set("loggedIn", true);
+      return true;
     }
+    return false;
+  }
+
+  public function userExists()
+  {
+    $query = Database::connection()->prepare("SELECT id, password FROM " . $this->userTableName . " WHERE email=:email");
+    $query->execute(['email' => $this->email]);
+    $this->id = $query->fetch(\PDO::FETCH_ASSOC)['id'];
+    $passHash = password_hash($query->fetch(\PDO::FETCH_ASSOC)['password'], PASSWORD_BCRYPT);
+    return password_verify($this->password, $passHash);
+  }
+
+  public function register()
+  {
+      $query = Database::connection()->prepare("INSERT INTO " . $this->userTable . " VALUES(0,:fullname, :email, :password)");
+      $query->execute(array(":fullname" => $this->fullName,":email" => $this->email,":password" => password_hash
+      ($this->password, PASSWORD_BCRYPT)));
+      $this->id = Database::connection()->lastInsertId();
+      return $this;
+  }
+
 }

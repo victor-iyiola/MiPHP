@@ -9,9 +9,14 @@
 
 namespace Core;
 
-use PDO;
-
 class Model
 {
+
+  public $db;
+
+  public function __construct()
+  {
+//    $this->db = new Database();
+  }
 
 }

@@ -8,14 +8,14 @@
  * @desc Abstract Controller Class
 */
 namespace Core;
-use \Core\View;
 
- Class Controller{
-     //use model
-     protected function model($model){
-         if($model){
-             $modelObj = "\\Model\\".$model;
-             return new $modelObj;
-         }else return false;
-     }
+ abstract Class Controller{
+
+   public function __construct()
+   {
+     $this->view = new View;
+   }
+
+   abstract public function index();
+
 }

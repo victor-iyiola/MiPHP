@@ -10,25 +10,28 @@
 
 namespace Core;
 use \PDO;
-Class Database{
+use PDOException;
+
+Class Database
+{
     private static $dbConnection = null;
 
     private function __construct(){
       
     }
 
-    public static function connection(){
+    public static function connection() {
         if(self::$dbConnection){
             return self::$dbConnection;
         }
         else{
             try{
               $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
-        self::$dbConnection  = new PDO(DB_TYPE.':host='.DB_HOST.';dbname='.DB_NAME.';charset='.DB_CHARSET,DB_USER,DB_PASS,$options);
-        } catch (PDOException $e){
+        self::$dbConnection  = new PDO(DB_TYPE.':host='.DB_HOST.';dbname='.DB_NAME.';charset='.DB_CHARSET,DB_USER,DB_PASS, $options);
+        } catch ( PDOException $e ) {
             exit("Error connecting to the database. ".$e);
         }
-        return self::$dbConnection;
+          return self::$dbConnection;
+        }
     }
-}
 }

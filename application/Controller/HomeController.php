@@ -7,23 +7,22 @@
  */
 
 namespace Controller;
-use \Core\View;
-use \Model\User;
-class HomeController extends \Core\Controller
-{
-public function index(){
-    $user = $this->model('');
-    View::render('index',["name" => "tomiiide"]);
-}
 
-public function register()
+
+use Core\Controller;
+
+class HomeController extends Controller
 {
-    if(isset($_POST['register'])){
-        $data = $_POST;
-        $user = new User($data);
-        $user->register();
-    }
-    
-    View::render('register');
-}
+  public function __construct()
+  {
+    parent::__construct();
+    $this->view->title = "Home";
+  }
+
+  public function index()
+  {
+    $this->view->name = "Tomiiide";
+    $this->view->render("home/index");
+  }
+
 }

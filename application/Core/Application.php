@@ -9,7 +9,8 @@
 */
 
 namespace Core;
-use PDO;
+use Controller\HomeController;
+
 class Application{
 
     private $controller  = null;
@@ -48,7 +49,7 @@ class Application{
     public function callController(){
  //check controller, if no controller is given then load homepage
         if(!$this->controller){
-            $page = new \Controller\HomeController();
+            $page = new HomeController();
             $page->index();
         }
         // check if controller exists ? load controller : redirect to 404 page;
@@ -57,7 +58,7 @@ class Application{
             $this->controller = new $controller();
 
             //check if method exist in the controller  ? call method : call index() method
-            if(method_exists($this->controller,$this->method)){
+            if(method_exists($this->controller, $this->method)){
                 //check if there are parameters and pass it to the method
                 if(!empty($this->parameters)){
                     echo("");

@@ -8,9 +8,9 @@
  * @desc Auto class loader used in the php
 */
 
-spl_autoload_register(function($classname){
-    $classname = preg_replace('/\\\/',DIRECTORY_SEPARATOR,$classname);
-    $classname = $classname.'.php';
-    $classname = APP."/".$classname;
-    if(file_exists($classname))require_once $classname;
+spl_autoload_register(function($className){
+    $className = preg_replace('/\\\/',DIRECTORY_SEPARATOR,$className);
+    $className = $className.'.php';
+    $className = APP."/".$className;
+    if(file_exists($className))require_once $className;
 });

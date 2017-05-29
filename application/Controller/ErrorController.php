@@ -9,9 +9,28 @@
 namespace Controller;
 
 
-class ErrorController
+use Core\Controller;
+
+class ErrorController extends Controller
 {
-    public function index(){
-        echo("Error Page");
+
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
+  public function index($type=null)
+  {
+    switch ( $type ) {
+      case 404:
+        $this->view->render('error/404');
+        break;
+      case 500:
+        $this->view->render('error/500');
+        break;
+      default:
+        $this->view->render('error/index');
     }
+  }
+
 }

@@ -13,8 +13,9 @@ define('APP',ROOT. 'application'.DIRECTORY_SEPARATOR);
 define('VIEWS',APP.'views'.DIRECTORY_SEPARATOR);
 
 
-require ROOT. '/autoloader.php';
 require APP. 'config/config.php';
+require ROOT. '/autoloader.php';
+require APP . 'Libs/helpers.php';
 use Core\Application;
 
 $app = new Application();
